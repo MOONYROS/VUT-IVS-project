@@ -34,4 +34,4 @@ Systém pro správu verzí
 =======================
 
 Bude využit git.
-Repozitář projektu je na adrese ***********.
+Repozitář projektu je na adrese https://github.com/MOONYROS/CalculandumMachina.
