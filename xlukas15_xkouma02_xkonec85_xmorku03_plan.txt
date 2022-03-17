@@ -1,0 +1,37 @@
+Calculandum Machina
+===================
+
+Řešitelé:
+	Ondřej Lukášek 	(xlukas15)	Vedoucí týmu
+	Ondřej Koumar 	(xkouma02)	
+	Jonáš Morkus 	(xmorku03)	
+	Marek Konečný 	(xkonec85) 
+
+Plán:
+=====
+
+Rozvržení projektu	17.03.2022		Všichni
+Návrh				22.03.2022		Všichni
+Front-End (GUI)		03.04.2022		Jonáš, Ondřej L.
+Makefile			10.04.2022		Ondřej L., Ondřej K.
+Návrh testů			10.04.2022		Všichni
+Matematické funkce	14.04.2022		Marek, Ondřej K.
+Integrace			17.04.2022		Ondřej L., Marek, Ondřej K.
+Testování			21.04.2022		Všichni
+Manuál + příručka		24.04.2022		Ondřej L., Jonáš
+Finishing touches		24.04.2022		Všichni
+Mockup			27.04.2022		Marek, Jonáš
+
+*Dokumentace, prototypy jsou tvořeny v průběhu implementace projektu.
+*Vedoucí má na starost organizaci projektu.
+
+Komunikační kanál
+=================
+
+Tým se bude domlouvat v prostorách školy a na soukromém Discord serveru a Trellu. Pravidlo komunikace je takové, že veškeré dotazy musí být dostupné celému týmu.
+
+Systém pro správu verzí
+=======================
+
+Bude využit git.
+Repozitář projektu je na adrese ***********.
