@@ -37,18 +37,17 @@ class Matlib
         /**
          * @brief Umocni prvni operand druhym, vraci double.
          */
-        double power(double a, unsigned exponent);
+        double power(double a, unsigned short exponent);
 
         /**
          * @brief Vypocita obecnou odmocninu cisla, vraci double.
          */
-        double root(double a, unsigned root);
+        double root(double a, unsigned degree);
 
         /**
-         * @brief Vypocita logaritmus o zvolenem zakladu, vraci double.
+         * @brief Vypocita dekadicky logaritmus, vraci double.
          */
-        double log(unsigned short base, double a);
-
+        double log(double a);
 };
 
 

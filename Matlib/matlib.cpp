@@ -41,7 +41,7 @@ unsigned long long Matlib::factorial(unsigned short a)
     if (a < 0 || a > 20)
     {
         // The max val can be 20 because 21! cannot fit to 64 bits
-        throw out_of_range("The number that factorial is calculated from has to be in interval <0, 20>.");
+        throw out_of_range("Input number has to be in <0, 20>.");
     }
 
     for (a; a > 0; a--)
@@ -59,10 +59,10 @@ double Matlib::power(double a, unsigned short exponent)
     if (exponent < 0)
     {
         // Value of exponent can not be negative
-        throw out_of_range("The number of exponent must be equal or greater than 0.");
+        throw out_of_range("The exponent must be equal or greater than 0.");
     }
 
-    for (i=0; i < exponent; i++)
+    for (int i = 0; i < exponent; i++)
     {
         result *= a;
     }
@@ -70,35 +70,35 @@ double Matlib::power(double a, unsigned short exponent)
     return result;
 }
 
-double Matlib::root(double a, unsigned root)
+double Matlib::root(double a, unsigned degree)
 {
     double result = 1;
     double tmp = 1;
-    double epsilon = 0.00001;
+    double epsilon = 0.00000001;
     int x = 1;
 
-    if ( root <= 0 )
+    if (degree <= 0)
     {
-        throw out_of_range( "The second operator must be positive." );
+        throw out_of_range("The degree must be positive.");
     }
-    else if ( a == 0 )
+    else if (a == 0)
     {
         return 0;
     }
-    else if ( root == 1 )
+    else if (degree == 1)
     {
         return a;
     }
-    else if ( a < 0 and root % 2 == 0 )
+    else if (a < 0 and degree % 2 == 0)
     {
-        throw out_of_range( "There can not be a negative number below the even root." );
+        throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).");
     }
 
-    while ( tmp > epsilon or tmp < -epsilon )
+    while (tmp > epsilon or tmp < -epsilon)
     {
-      tmp = (a / power(result, root - 1) - result ) / root;
-      result += tmp;
-      x++;
+        tmp = (a / power(result, degree - 1) - result) / degree;
+        result += tmp;
+        x++;
     }
 
     return result;
@@ -108,40 +108,39 @@ double Matlib::log(double a)
 {
     double result = 1;
     double tmp = 1;
-    double epsilon = 0.00001;
+    double epsilon = 0.00000001;
 
-    if ( a <= 0 )
+    if (a <= 0)
     {
-      throw out_of_range( "The number must be positive." );
+        throw out_of_range("The argument must be positive.");
     }
 
     int x = 2;
 
-    if ( a >= 1 )
+    if (a >= 1)
     {
-      tmp = ( a - 1 ) / a;
-      result = tmp;
+        tmp = (a - 1) / a;
+        result = tmp;
 
-      while ( tmp > epsilon or tmp < -epsilon )
-      {
-        tmp *=  ( a - 1 ) * ( x - 1 ) / ( a * x );
-        result += tmp;
-        x++;
-      }
+        while (tmp > epsilon or tmp < -epsilon)
+        {
+            tmp *=  (a - 1) * (x - 1) / (a * x);
+            result += tmp;
+            x++;
+        }
     }
-
     else
     {
-      a = 1 - a;
-      tmp = -a;
-      result = tmp;
+        a = 1 - a;
+        tmp = -a;
+        result = tmp;
 
-      while ( tmp > epsilon or tmp < -epsilon )
-      {
-        tmp *= ( x - 1 ) * a / x;
-        result += tmp;
-        x++;
-      }
+        while (tmp > epsilon or tmp < -epsilon)
+        {
+            tmp *= (x - 1) * a / x;
+            result += tmp;
+            x++;
+        }
     }
 
     return result;
