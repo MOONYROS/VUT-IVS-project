@@ -11,7 +11,7 @@ using namespace std;
 
 double Matlib::add(double a, double b)
 {
-    return (a + b);
+    return (a + b); 
 }
 
 double Matlib::sub(double a, double b)
@@ -52,16 +52,17 @@ unsigned long long Matlib::factorial(unsigned short a)
     return result;
 }
 
-double Matlib::power(double a, unsigned exponent)
+double Matlib::power(double a, unsigned short exponent)
 {
-    unsigned long long result = 1;
+    double result = 1;
 
     if (exponent < 0)
     {
+        // Value of exponent can not be negative
         throw out_of_range("The number of exponent must be equal or greater than 0.");
     }
 
-    for (i; i < exponent; i++)
+    for (i=0; i < exponent; i++)
     {
         result *= a;
     }
@@ -71,10 +72,10 @@ double Matlib::power(double a, unsigned exponent)
 
 double Matlib::root(double a, unsigned root)
 {
-    unsigned long long result = 1;
-    unsigned long long tmp = 1;
+    double result = 1;
+    double tmp = 1;
     double epsilon = 0.00001;
-    int x = 2;
+    int x = 1;
 
     if ( root <= 0 )
     {
@@ -105,8 +106,8 @@ double Matlib::root(double a, unsigned root)
 
 double Matlib::log(double a)
 {
-    unsigned long long result = 1;
-    unsigned long long tmp = 1;
+    double result = 1;
+    double tmp = 1;
     double epsilon = 0.00001;
 
     if ( a <= 0 )
@@ -116,7 +117,7 @@ double Matlib::log(double a)
 
     int x = 2;
 
-    if ( x >= 1 )
+    if ( a >= 1 )
     {
       tmp = ( a - 1 ) / a;
       result = tmp;
