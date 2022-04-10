@@ -54,16 +54,94 @@ unsigned long long Matlib::factorial(unsigned short a)
 
 double Matlib::power(double a, unsigned exponent)
 {
+    unsigned long long result = 1;
 
+    if (exponent < 0)
+    {
+        throw out_of_range("The number of exponent must be equal or greater than 0.");
+    }
+
+    for (i; i < exponent; i++)
+    {
+        result *= a;
+    }
+
+    return result;
 }
 
 double Matlib::root(double a, unsigned root)
 {
+    unsigned long long result = 1;
+    unsigned long long tmp = 1;
+    double epsilon = 0.00001;
+    int x = 2;
 
+    if ( root <= 0 )
+    {
+        throw out_of_range( "The second operator must be positive." );
+    }
+    else if ( a == 0 )
+    {
+        return 0;
+    }
+    else if ( root == 1 )
+    {
+        return a;
+    }
+    else if ( a < 0 and root % 2 == 0 )
+    {
+        throw out_of_range( "There can not be a negative number below the even root." );
+    }
+
+    while ( tmp > epsilon or tmp < -epsilon )
+    {
+      tmp = (a / power(result, root - 1) - result ) / root;
+      result += tmp;
+      x++;
+    }
+
+    return result;
 }
 
-double Matlib::log(unsigned short base, double a)
+double Matlib::log(double a)
 {
+    unsigned long long result = 1;
+    unsigned long long tmp = 1;
+    double epsilon = 0.00001;
 
+    if ( a <= 0 )
+    {
+      throw out_of_range( "The number must be positive." );
+    }
+
+    int x = 2;
+
+    if ( x >= 1 )
+    {
+      tmp = ( a - 1 ) / a;
+      result = tmp;
+
+      while ( tmp > epsilon or tmp < -epsilon )
+      {
+        tmp *=  ( a - 1 ) * ( x - 1 ) / ( a * x );
+        result += tmp;
+        x++;
+      }
+    }
+
+    else
+    {
+      a = 1 - a;
+      tmp = -a;
+      result = tmp;
+
+      while ( tmp > epsilon or tmp < -epsilon )
+      {
+        tmp *= ( x - 1 ) * a / x;
+        result += tmp;
+        x++;
+      }
+    }
+
+    return result;
 }
-
