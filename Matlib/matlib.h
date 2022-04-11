@@ -10,42 +10,42 @@ class Matlib
     public:
 
         /**
-         * @brief Secte dve cisla, vraci double.
+         * @brief Adds two numbers, returns double.
          */
         double add(double a, double b);
 
         /**
-         * @brief Odecte dve cisla, vraci double.
+         * @brief Subtracts two numbers, returns double.
          */
         double sub(double a, double b);
 
         /**
-         * @brief Vynasobi dve cisla, vraci double. 
+         * @brief Multiplies two numbers, returns double.
          */
         double mul(double a, double b);
 
         /**
-         * @brief Vydeli dve cisla, vraci double.
+         * @brief Divides two numbers, returns double.
          */
         double div(double a, double b);
 
         /**
-         * @brief Vypocita faktorial, vraci unsigned long long.
+         * @brief Calculates factorial of a given number, returns unsigned long long.
          */
         unsigned long long factorial(unsigned short a);
 
         /**
-         * @brief Umocni prvni operand druhym, vraci double.
+         * @brief Calculates Nth power of a given number, returns double.
          */
         double power(double a, unsigned short exponent);
 
         /**
-         * @brief Vypocita obecnou odmocninu cisla, vraci double.
+         * @brief Calculates Nth root of a given number with preset precision, returns double.
          */
         double root(double a, unsigned degree);
 
         /**
-         * @brief Vypocita dekadicky logaritmus, vraci double.
+         * @brief Calculates common logarithm of a given number with preset precision, returns double.
          */
         double log(double a);
 };

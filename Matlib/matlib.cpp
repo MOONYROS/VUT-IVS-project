@@ -44,6 +44,7 @@ unsigned long long Matlib::factorial(unsigned short a)
         throw out_of_range("Input number has to be in <0, 20>.");
     }
 
+    // 1*a*(a-1)*...*2*1
     for (a; a > 0; a--)
     {
         result *= a;
@@ -75,10 +76,10 @@ double Matlib::root(double a, unsigned degree)
     double result = 1;
     double tmp = 1;
     double epsilon = 0.00000001;
-    int x = 1;
-
+    
     if (degree <= 0)
     {
+        // Value of exponent can not be negative
         throw out_of_range("The degree must be positive.");
     }
     else if (a == 0)
@@ -89,16 +90,15 @@ double Matlib::root(double a, unsigned degree)
     {
         return a;
     }
-    else if (a < 0 and degree % 2 == 0)
+    else if (a < 0 && degree % 2 == 0)
     {
         throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).");
     }
 
-    while (tmp > epsilon or tmp < -epsilon)
+    while (tmp > epsilon || tmp < -epsilon)
     {
         tmp = (a / power(result, degree - 1) - result) / degree;
         result += tmp;
-        x++;
     }
 
     return result;
@@ -122,7 +122,7 @@ double Matlib::log(double a)
         tmp = (a - 1) / a;
         result = tmp;
 
-        while (tmp > epsilon or tmp < -epsilon)
+        while (tmp > epsilon || tmp < -epsilon)
         {
             tmp *=  (a - 1) * (x - 1) / (a * x);
             result += tmp;
