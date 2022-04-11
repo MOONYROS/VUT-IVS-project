@@ -28,7 +28,7 @@ double Matlib::div(double a, double b)
 {
     if (b == 0)
     {
-        throw invalid_argument("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        throw invalid_argument("https://www.youtube.com/watch?v=dQw4w9WgXcQ\n");
     }
 
     return (a / b);
@@ -41,7 +41,7 @@ unsigned long long Matlib::factorial(unsigned short a)
     if (a < 0 || a > 20)
     {
         // The max val can be 20 because 21! cannot fit to 64 bits
-        throw out_of_range("Input number has to be in <0, 20>.");
+        throw out_of_range("Input number has to be in <0, 20>.\n");
     }
 
     // 1*a*(a-1)*...*2*1
@@ -60,7 +60,7 @@ double Matlib::power(double a, unsigned short exponent)
     if (exponent < 0)
     {
         // Value of exponent can not be negative
-        throw out_of_range("The exponent must be equal or greater than 0.");
+        throw out_of_range("The exponent must be equal or greater than 0.\n");
     }
     
     // a*a*...*a
@@ -82,7 +82,7 @@ double Matlib::root(double a, unsigned degree)
     if (degree <= 0)
     {
         // Value of exponent can not be negative
-        throw out_of_range("The degree must be positive.");
+        throw out_of_range("The degree must be positive.\n");
     }
     else if (a == 0)
     {
@@ -94,7 +94,7 @@ double Matlib::root(double a, unsigned degree)
     }
     else if (a < 0 && degree % 2 == 0)
     {
-        throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).");
+        throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).\n");
     }
 
     // calculation of root
@@ -116,7 +116,7 @@ double Matlib::log(double a)
     // checking for valid values
     if (a <= 0)
     {
-        throw out_of_range("The argument must be positive.");
+        throw out_of_range("The argument must be positive.\n");
     }
 
     // declaration of "x" used in while to calculate logarithm
