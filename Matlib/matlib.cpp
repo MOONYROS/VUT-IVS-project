@@ -62,7 +62,8 @@ double Matlib::power(double a, unsigned short exponent)
         // Value of exponent can not be negative
         throw out_of_range("The exponent must be equal or greater than 0.");
     }
-
+    
+    // a*a*...*a
     for (int i = 0; i < exponent; i++)
     {
         result *= a;
@@ -77,6 +78,7 @@ double Matlib::root(double a, unsigned degree)
     double tmp = 1;
     double epsilon = 0.00000001;
     
+    // checking for valid values
     if (degree <= 0)
     {
         // Value of exponent can not be negative
@@ -95,6 +97,7 @@ double Matlib::root(double a, unsigned degree)
         throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).");
     }
 
+    // calculation of root
     while (tmp > epsilon || tmp < -epsilon)
     {
         tmp = (a / power(result, degree - 1) - result) / degree;
@@ -109,14 +112,17 @@ double Matlib::log(double a)
     double result = 1;
     double tmp = 1;
     double epsilon = 0.00000001;
-
+    
+    // checking for valid values
     if (a <= 0)
     {
         throw out_of_range("The argument must be positive.");
     }
 
+    // declaration of "x" used in while to calculate logarithm
     int x = 2;
 
+    // for a >= 1: 
     if (a >= 1)
     {
         tmp = (a - 1) / a;
@@ -129,6 +135,8 @@ double Matlib::log(double a)
             x++;
         }
     }
+    
+    // for a < 1:
     else
     {
         a = 1 - a;
