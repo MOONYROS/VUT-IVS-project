@@ -1,6 +1,9 @@
 /**
  * @file matlib.h
- * @authors Ondrej Koumar (xkouma02), Marek Konecny (xkonec85)
+ * @author Ondrej Koumar (xkouma02)
+ * @author Marek Konecny (xkonec85)
+ * @author Ondrej Lukasel (xlukas15)
+ * @author Jonas Morkus (xmorku03)
  * @brief Header with declarations of Matlib class methods used for calculations in Calculandum Machina.
  */
 
@@ -10,44 +13,52 @@ class Matlib
     public:
 
         /**
-         * @brief Adds two numbers, returns double.
+         * @brief Adds two numbers.
+         * @return Sum, double precision float.
          */
         double add(double a, double b);
 
         /**
-         * @brief Subtracts two numbers, returns double.
+         * @brief Subtracts two numbers.
+         * @return Difference, double precision float.
          */
         double sub(double a, double b);
 
         /**
-         * @brief Multiplies two numbers, returns double.
+         * @brief Multiplies two numbers.
+         * @return Product, double precision float.
          */
         double mul(double a, double b);
 
         /**
-         * @brief Divides two numbers, returns double.
+         * @brief Divides two numbers.
+         * @return Quotient, double precision float.
          */
         double div(double a, double b);
 
         /**
-         * @brief Calculates factorial of a given number, returns unsigned long long.
+         * @brief Calculates factorial of a given number.
+         * @return Factorial, unsigned long long integer.
          */
         unsigned long long factorial(unsigned short a);
 
         /**
-         * @brief Calculates Nth power of a given number, returns double.
+         * @brief Calculates Nth power of a given number.
+         * @return Power, double precision float.
          */
         double power(double a, unsigned short exponent);
 
         /**
-         * @brief Calculates Nth root of a given number with preset precision, returns double.
+         * @brief Calculates Nth root of a given number.
+         * @return Root, double precision float (preset with epsilon = 10e-8).
          */
         double root(double a, unsigned degree);
 
         /**
-         * @brief Calculates common logarithm of a given number with preset precision, returns double.
+         * @brief Calculates natural logarithm of a given number.
+         * @return Logarithm, double precision float (preset with epsilon = 10e-8).
          */
-        double log(double a);
+        double ln(double a);
 };
 
 

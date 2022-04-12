@@ -1,6 +1,11 @@
 /**
  * @file matlib.cpp
- * @author Ondrej Koumar (xkouma02), Marek Konecny (xkonec85)
+ * 
+ * @author Ondrej Koumar, xkouma02
+ * @author Marek Konecny, xkonec85
+ * @author Ondrej Lukasek, xlukas15
+ * @author Jonas Morkus, xmorku03
+ * 
  * @brief Implementation of Matlib class methods declared in matlib.h.
  */
 
@@ -38,16 +43,17 @@ unsigned long long Matlib::factorial(unsigned short a)
 {
     unsigned long long result = 1;
 
-    if (a < 0 || a > 20)
+    if (a > 20)
     {
         // The max val can be 20 because 21! cannot fit to 64 bits
         throw out_of_range("Input number has to be in <0, 20>.\n");
     }
 
     // 1*a*(a-1)*...*2*1
-    for (a; a > 0; a--)
+    while (a > 0)
     {
-        result *= a;
+        result *= a; // Had been in for loop; some compiling problems occured
+        a--;
     }
 
     return result;
@@ -78,10 +84,9 @@ double Matlib::root(double a, unsigned degree)
     double tmp = 1;
     double epsilon = 0.00000001;
     
-    // checking for valid values
+    // Checking for valid values of the given number and exponent
     if (degree <= 0)
     {
-        // Value of exponent can not be negative
         throw out_of_range("The degree must be positive.\n");
     }
     else if (a == 0)
@@ -97,9 +102,10 @@ double Matlib::root(double a, unsigned degree)
         throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).\n");
     }
 
-    // calculation of root
+    // Looping till not satisfied with the precision
     while (tmp > epsilon || tmp < -epsilon)
     {
+        // Newtons method of calculating nth root
         tmp = (a / power(result, degree - 1) - result) / degree;
         result += tmp;
     }
@@ -107,7 +113,7 @@ double Matlib::root(double a, unsigned degree)
     return result;
 }
 
-double Matlib::log(double a)
+double Matlib::ln(double a)
 {
     double result = 1;
     double tmp = 1;
@@ -119,15 +125,14 @@ double Matlib::log(double a)
         throw out_of_range("The argument must be positive.\n");
     }
 
-    // declaration of "x" used in while to calculate logarithm
     int x = 2;
 
-    // for a >= 1: 
     if (a >= 1)
     {
         tmp = (a - 1) / a;
         result = tmp;
 
+        // Looping till not satisfied with the precision
         while (tmp > epsilon || tmp < -epsilon)
         {
             tmp *=  (a - 1) * (x - 1) / (a * x);
@@ -136,14 +141,14 @@ double Matlib::log(double a)
         }
     }
     
-    // for a < 1:
     else
     {
         a = 1 - a;
         tmp = -a;
         result = tmp;
 
-        while (tmp > epsilon or tmp < -epsilon)
+        // Looping till not satisfied with the precision
+        while (tmp > epsilon || tmp < -epsilon)
         {
             tmp *= (x - 1) * a / x;
             result += tmp;

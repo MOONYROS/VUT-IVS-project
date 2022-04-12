@@ -1,7 +1,16 @@
 /**
  * @file matlib_tests.cpp
- * @author Ondrej Koumar (xkouma02), Marek Konecny (xkonec85)
+ * @author Ondrej Koumar (xkouma02)
+ * @author Marek Konecny (xkonec85)
+ * @author Ondrej Lukasek (xlukas15)
+ * @author Jonas Morkus (xmorku03)
+ * 
  * @brief Testing program (based on GTest) for mathematical library of Calculandum Machina.
+ * 
+ * Not many information about the tests are provided;
+ * the code itself is pretty self-explanatory.
+ * All the EQ statements are double, which means that
+ * it checks the equality of finite number of decimal places.
  */
 
 #include "matlib.cpp"
@@ -10,7 +19,7 @@
 Matlib matlib;
 
 /**
- * @brief Add tests
+ * @brief Test cases for addiction.
  */
 TEST(addTest, positiveNumbers)
 {
@@ -28,7 +37,7 @@ TEST(addTest, mixedNumbers)
 }
 
 /**
- * @brief Sub tests 
+ * @brief Test cases for subtraction.
  */
 TEST(subTest, positiveNumbers)
 {
@@ -46,7 +55,7 @@ TEST(subTest, mixedNumbers)
 }
 
 /**
- * @brief Mul tests 
+ * @brief Test cases for multiplication.
  */
 TEST(mulTest, positiveNumbers)
 {
@@ -64,7 +73,7 @@ TEST(mulTest, mixedNumbers)
 }
 
 /**
- * @brief Div tests 
+ * @brief Test cases for division.
  */
 TEST(divTest, positiveNumbers)
 {
@@ -87,7 +96,7 @@ TEST(divTest, divisionByZero)
 }
 
 /**
- * @brief Factorial tests
+ * @brief Test cases for factorial.
  */
 TEST(factorialTest, legalNumbers)
 {
@@ -103,7 +112,7 @@ TEST(factorialTest, illegalNumbers)
 }
 
 /**
- * @brief Power tests 
+ * @brief Test cases for nth power.
  */
 TEST(powerTest, positiveNumbers)
 {
@@ -130,7 +139,7 @@ TEST(powerTest, negativeExponent)
 }
 
 /**
- * @brief Root tests
+ * @brief Test cases for nth root.
  */
 TEST(rootTest, validCases)
 {
@@ -146,19 +155,19 @@ TEST(rootTest, invalidCases)
 }
 
 /**
- * @brief Log tests 
+ * @brief Test cases for natural logarithm.
  */
-TEST(logTest, validCases)
+TEST(lnTest, validCases)
 {
-    EXPECT_DOUBLE_EQ(matlib.log(10), 1);
-    EXPECT_DOUBLE_EQ(matlib.log(1), 0);
-    EXPECT_DOUBLE_EQ(matlib.log(123), 2.089905111);
+    EXPECT_DOUBLE_EQ(matlib.ln(10), 1);
+    EXPECT_DOUBLE_EQ(matlib.ln(1), 0);
+    EXPECT_DOUBLE_EQ(matlib.ln(123), 2.089905111);
 }
 
-TEST(logTest, invalidCases)
+TEST(lnTest, invalidCases)
 {
-    EXPECT_THROW(matlib.log(0), out_of_range);
-    EXPECT_THROW(matlib.log(-10), out_of_range);
+    EXPECT_THROW(matlib.ln(0), out_of_range);
+    EXPECT_THROW(matlib.ln(-10), out_of_range);
 }
 
 int main(int argc, char **argv)
