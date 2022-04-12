@@ -125,7 +125,7 @@ double Matlib::ln(double a)
         throw out_of_range("The argument must be positive.\n");
     }
 
-    int x = 2;
+    int x = 1;
 
     if (a >= 1)
     {
@@ -135,7 +135,8 @@ double Matlib::ln(double a)
         // Looping till not satisfied with the precision
         while (tmp > epsilon || tmp < -epsilon)
         {
-            tmp *=  (a - 1) * (x - 1) / (a * x);
+            // based on general ln equation and completed 
+            tmp *=  (a - 1) * (x) / (a * (x - 1));
             result += tmp;
             x++;
         }
@@ -150,7 +151,8 @@ double Matlib::ln(double a)
         // Looping till not satisfied with the precision
         while (tmp > epsilon || tmp < -epsilon)
         {
-            tmp *= (x - 1) * a / x;
+            // based on general ln equation
+            tmp *= (x - 2) * a / (x - 1);
             result += tmp;
             x++;
         }
