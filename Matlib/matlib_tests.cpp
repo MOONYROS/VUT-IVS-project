@@ -1,9 +1,10 @@
 /**
  * @file matlib_tests.cpp
- * @author Ondrej Koumar (xkouma02)
- * @author Marek Konecny (xkonec85)
- * @author Ondrej Lukasek (xlukas15)
- * @author Jonas Morkus (xmorku03)
+ * 
+ * @author Ondrej Koumar, xkouma02
+ * @author Marek Konecny, xkonec85
+ * @author Ondrej Lukasek, xlukas15
+ * @author Jonas Morkus, xmorku03
  * 
  * @brief Testing program (based on GTest) for mathematical library of Calculandum Machina.
  * 
@@ -13,6 +14,7 @@
  * it checks the equality of finite number of decimal places.
  */
 
+#include "matlib.h"
 #include "matlib.cpp"
 #include "gtest/gtest.h"
 

@@ -35,7 +35,6 @@ double Matlib::div(double a, double b)
     {
         throw invalid_argument("https://www.youtube.com/watch?v=dQw4w9WgXcQ\n");
     }
-
     return (a / b);
 }
 
@@ -52,10 +51,9 @@ unsigned long long Matlib::factorial(unsigned short a)
     // 1*a*(a-1)*...*2*1
     while (a > 0)
     {
-        result *= a; // Had been in for loop; some compiling problems occured
+        result *= a; 
         a--;
     }
-
     return result;
 }
 
@@ -78,20 +76,12 @@ double Matlib::power(double a, unsigned short exponent)
     return result;
 }
 
-double Matlib::root(double a, unsigned degree)
+double Matlib::root(double a, unsigned short degree)
 {
-    double result = 1;
-    double tmp = 1;
-    double epsilon = 0.00000001;
-    
-    // Checking for valid values of the given number and exponent
-    if (degree <= 0)
+    // checking for valid values of the given number and degree 
+    if (a == 0)
     {
-        throw out_of_range("The degree must be positive.\n");
-    }
-    else if (a == 0)
-    {
-        return 0;
+        throw invalid_argument("The degree has to be > 1.\n");
     }
     else if (degree == 1)
     {
@@ -99,64 +89,49 @@ double Matlib::root(double a, unsigned degree)
     }
     else if (a < 0 && degree % 2 == 0)
     {
-        throw invalid_argument("Root of negative number with even degree doesnt exist (in real numbers).\n");
+        throw invalid_argument("There is no solution (in R) for negative numbers and even degree.");
     }
 
-    // Looping till not satisfied with the precision
-    while (tmp > epsilon || tmp < -epsilon)
+    double epsilon = 0.00000001;
+    double iteration_result = a;
+    double result = iteration_result + 1; // the value doesnt matter, we just need to begin the while loop
+
+    // newthons method of approximating result by solving differential equation
+    while (result - iteration_result > epsilon)
     {
-        // Newtons method of calculating nth root
-        tmp = (a / power(result, degree - 1) - result) / degree;
-        result += tmp;
+        result = iteration_result;
+        // In our case nth root can be written as a^(1/degree),
+        // the derivative is (1/degree)*a^(1/degree - 1)
+        // and Xk+1 = Xk - f(Xk)/f'(Xk). After the difference between
+        // the old and new result is <= epsilon, we can return the result.
+        // The simplified equivalent of this particular formula is
+        // Xk+1 = Xk - ((Xk^degree) - a)/(degree*(Xk^degree-1))S
+        iteration_result = iteration_result - (power(iteration_result, degree) - a) / (degree * power(iteration_result, degree - 1));
     }
-
     return result;
 }
 
 double Matlib::ln(double a)
-{
-    double result = 1;
-    double tmp = 1;
-    double epsilon = 0.00000001;
-    
-    // checking for valid values
+{   
+    // checking for valid value of a given number
     if (a <= 0)
     {
         throw out_of_range("The argument must be positive.\n");
     }
 
-    int x = 1;
+    double result = 0;
+    double epsilon = 0.00000001;
+    double iteration_result = 1; // the value doesnt matter, we just need to begin the while loop
+    unsigned short n = 1; // iterator in infinite series described below
 
-    if (a >= 1)
+    while (iteration_result > epsilon)
     {
-        tmp = (a - 1) / a;
-        result = tmp;
-
-        // Looping till not satisfied with the precision
-        while (tmp > epsilon || tmp < -epsilon)
-        {
-            // based on general ln equation and completed 
-            tmp *=  (a - 1) * (x) / (a * (x - 1));
-            result += tmp;
-            x++;
-        }
+        // An infinite series of approximating natural log,
+        // where one iteration is equal to ((x-1)/(x+1)^(2n-1))/(2n-1)
+        // and the sum is multiplied by two.
+        iteration_result = (power((a-1)/(a+1), 2*n-1) / (2*n - 1));
+        result += 2*iteration_result;
+        n++;
     }
-    
-    else
-    {
-        a = 1 - a;
-        tmp = -a;
-        result = tmp;
-
-        // Looping till not satisfied with the precision
-        while (tmp > epsilon || tmp < -epsilon)
-        {
-            // based on general ln equation
-            tmp *= (x - 2) * a / (x - 1);
-            result += tmp;
-            x++;
-        }
-    }
-
     return result;
 }
