@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnMinus, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnMult, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnDiv, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
+    connect(ui->btnPow, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
+    connect(ui->btnRoot, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -123,6 +125,18 @@ void MainWindow::on_btnOper_clicked()
         addNumbers = 0;
         operation = '/';
     }
+    else if(((QPushButton *)sender())->text() == "x")
+    {
+        firstOperand = ui->calcDisplay->toPlainText().toDouble();
+        addNumbers = 0;
+        operation = 'x';
+    }
+    else if(((QPushButton *)sender())->text() == "√x")
+    {
+        firstOperand = ui->calcDisplay->toPlainText().toDouble();
+        addNumbers = 0;
+        operation = 'R';
+    }
 }
 
 void MainWindow::on_btnFact_clicked()
@@ -157,6 +171,12 @@ void MainWindow::on_btnEquals_clicked()
             break;
         case '/':
             result = math.div(firstOperand, secondOperand);
+            break;
+        case 'x':
+            result = math.power(firstOperand, secondOperand);
+            break;
+        case 'R':
+            result = math.root(firstOperand, secondOperand);
             break;
         default:
             err = 1;
