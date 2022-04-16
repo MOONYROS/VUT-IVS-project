@@ -12,7 +12,8 @@
  * division, factorial, nth power, nth root and natural logarithm.
  */
 
-#ifndef matlib.h
+#ifndef MATLIB_H
+#define MATLIB_H
 
 class Matlib
 {
