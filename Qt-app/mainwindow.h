@@ -24,10 +24,9 @@ private slots:
 
     void on_btnOper_clicked();
 
-    void on_btnFact_clicked();
-
     void on_btnClear_clicked();
     void on_btnEquals_clicked();
+    void on_btnHelp_clicked();
 
 private:
     Ui::MainWindow *ui;

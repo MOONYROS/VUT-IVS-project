@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn7, SIGNAL(clicked()), this, SLOT(on_btnNum_clicked()));
     connect(ui->btn8, SIGNAL(clicked()), this, SLOT(on_btnNum_clicked()));
     connect(ui->btn9, SIGNAL(clicked()), this, SLOT(on_btnNum_clicked()));
+    connect(ui->btnDot, SIGNAL(clicked()), this, SLOT(on_btnNum_clicked()));
 
     connect(ui->btnPlus, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnMinus, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
@@ -40,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnDiv, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnPow, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnRoot, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
+
+    connect(ui->btnFact, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -73,6 +76,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
             key = "8"; break;
         case Qt::Key_9:
             key = "9"; break;
+        case Qt::Key_Period:
+            key = "."; break;
         default:
             key = "?"; break;
     }
@@ -137,13 +142,33 @@ void MainWindow::on_btnOper_clicked()
         addNumbers = 0;
         operation = 'R';
     }
-}
-
-void MainWindow::on_btnFact_clicked()
-{
-    unsigned short int number = ui->calcDisplay->toPlainText().toUInt();
-    int result = number * number;
-    ui->calcDisplay->setPlainText(QString::number(result));
+    else if(((QPushButton *)sender())->text() == "x!")
+    {
+        // zkontrolovat zaporna a desetinna cisla
+        if (ui->calcDisplay->toPlainText().contains('.') || ui->calcDisplay->toPlainText().contains('-'))
+            ui->calcDisplay->setPlainText("ERROR");
+        else
+        {
+            unsigned short operand = ui->calcDisplay->toPlainText().toUInt();
+            unsigned long long result = math.factorial(operand);
+            ui->calcDisplay->setPlainText(QString::number(result));
+        }
+        addNumbers = 0;
+        operation = ' ';
+    }
+    else if(((QPushButton *)sender())->text() == "ln x")
+    {
+        unsigned short operand = ui->calcDisplay->toPlainText().toUInt();
+        if (operand < 0)
+            ui->calcDisplay->setPlainText("ERROR");
+        else
+        {
+            unsigned long long result = math.ln(operand);
+            ui->calcDisplay->setPlainText(QString::number(result));
+        }
+        addNumbers = 0;
+        operation = ' ';
+    }
 }
 
 void MainWindow::on_btnClear_clicked()
@@ -189,4 +214,9 @@ void MainWindow::on_btnEquals_clicked()
         ui->calcDisplay->setPlainText(QString::number(result));
 
     addNumbers = 0;
+}
+
+void MainWindow::on_btnHelp_clicked()
+{
+    ui->calcDisplay->setPlainText("DIS NO WORK YET");
 }
