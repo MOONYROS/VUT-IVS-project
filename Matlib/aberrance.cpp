@@ -17,8 +17,11 @@
 
 using namespace std;
 
- //standard aberrance
- //aberrance = sqrt(  1 / (N-1) * SUM (from 1 to N) (x - mean)^2)
+/**
+ * @brief aberrance used to calculate profiling. 
+ * @param file numbericons is array of doubles
+ * @param numSize is size of array 'numbericons'
+ */
 
 double aberrance( double numbericons[], int numSize )
 {
@@ -27,7 +30,9 @@ double aberrance( double numbericons[], int numSize )
     for ( int i = 0; i < numSize; i++ )
     {
         //average
-        sum = Matlib::add(sum, numbericons[i] );
+        double tmpSum = 0;
+        tmpSum = numbericons[i];
+        sum = Matlib::add(sum, tmpSum);
     }
     double average = Matlib::div(sum,numSize);
 
