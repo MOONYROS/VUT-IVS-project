@@ -33,7 +33,7 @@ double Matlib::div(double a, double b)
 {
     if (b == 0)
     {
-        throw invalid_argument("https://www.youtube.com/watch?v=dQw4w9WgXcQ\n");
+        throw invalid_argument("Division by 0.\n");
     }
     return (a / b);
 }

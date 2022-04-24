@@ -3375,12 +3375,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="labelRoot">
     <property name="geometry">
      <rect>
       <x>233</x>
       <y>166</y>
-      <width>63</width>
+      <width>16</width>
       <height>20</height>
      </rect>
     </property>
@@ -3391,13 +3391,13 @@ p, li { white-space: pre-wrap; }
      <string>y</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="labelPower">
     <property name="geometry">
      <rect>
       <x>226</x>
       <y>224</y>
-      <width>63</width>
-      <height>20</height>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -3407,13 +3407,13 @@ p, li { white-space: pre-wrap; }
      <string>y</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="labelRootLine">
     <property name="geometry">
      <rect>
       <x>249</x>
-      <y>158</y>
-      <width>63</width>
-      <height>20</height>
+      <y>161</y>
+      <width>15</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
