@@ -1,9 +1,22 @@
+/**
+ * @file mainwindow.cpp
+ *
+ * @author Ondrej Lukasek, xlukas15
+ * @author Jonas Morkus, xmorku03
+ * @author Ondrej Koumar, xkouma02
+ * @author Marek Konecny, xkonec85
+ *
+ * @brief Implementation of working CalculandumMachina window with all the processes.
+ */
+
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
 #include "matlib.h"
 
 #include <QKeyEvent>
+#include <QIcon>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,7 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     addNumbers = 0;
     firstOperand = 0;
     operation = ' ';
+    secondOperand = 0;
+    wasEqual = 0;
 
+    setWindowIcon(QIcon(":/img/mainLogo"));
     setWindowTitle("Calculandum Machina");
 
     this->setFixedSize(this->geometry().width(), this->geometry().height());
@@ -41,8 +57,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnDiv, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnPow, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
     connect(ui->btnRoot, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
+    connect(ui->btnLog, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
 
     connect(ui->btnFact, SIGNAL(clicked()), this, SLOT(on_btnOper_clicked()));
+
+    ui->calcDisplay->setPlainText("0");
+    ui->calcDisplay->setAlignment(Qt::AlignRight);
 }
 
 MainWindow::~MainWindow()
@@ -52,7 +72,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent * event)
 {
-    QString key;
+    QString key("?");
 
     switch (event->key())
     {
@@ -77,146 +97,278 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
         case Qt::Key_9:
             key = "9"; break;
         case Qt::Key_Period:
+        case Qt::Key_Comma:
             key = "."; break;
-        default:
-            key = "?"; break;
+
+        case Qt::Key_Plus:
+            processOper("+"); break;
+        case Qt::Key_Minus:
+            processOper("-"); break;
+        case Qt::Key_Asterisk:
+            processOper("×"); break;
+        case Qt::Key_Slash:
+            processOper("÷"); break;
+        case Qt::Key_P:
+            processOper("x"); break;
+        case Qt::Key_R:
+            processOper("√x"); break;
+        case Qt::Key_F:
+            processOper("x!"); break;
+        case Qt::Key_L:
+            processOper("ln x"); break;
+
+        case Qt::Key_C:
+            on_btnClear_clicked(); break;
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+            on_btnEquals_clicked(); break;
+        case Qt::Key_Question:
+        case Qt::Key_H:
+            on_btnHelp_clicked(); break;
     }
 
-    ui->calcDisplay->insertPlainText(key);
-    ui->calcDisplay->moveCursor(QTextCursor::End);
-
+    QString nums("0123456789.");
+    if(nums.indexOf(key) >= 0)
+    {
+        processNumber(key);
+    }
 }
-
-
 
 void MainWindow::on_btnNum_clicked()
 {
+    processNumber(((QPushButton *)sender())->text());
+}
+
+void MainWindow::processNumber(QString key)
+{
+    if(key == "." && ui->calcDisplay->toPlainText().indexOf(".") >= 0)
+        return;
     if(addNumbers)
     {
-        ui->calcDisplay->insertPlainText(((QPushButton *)sender())->text());
+        ui->calcDisplay->insertPlainText(key);
+        ui->calcDisplay->setAlignment(Qt::AlignRight);
+        updateEquDisplay();
     }
     else
     {
-        ui->calcDisplay->setPlainText(((QPushButton *)sender())->text());
+        ui->calcDisplay->setPlainText(key);
+        ui->calcDisplay->setAlignment(Qt::AlignRight);
         addNumbers = 1;
+        if(wasEqual)
+            ui->equDisplay->clear();
+        else
+            updateEquDisplay();
     }
-
     ui->calcDisplay->moveCursor(QTextCursor::End);
 }
 
-void MainWindow::on_btnOper_clicked()
+void MainWindow::processOper(QString oper)
 {
-    if(((QPushButton *)sender())->text() == "+")
+    if(operation != ' ' && wasEqual == 0)
+    {
+        on_btnEquals_clicked();
+    }
+    if(oper == "+")
     {
         firstOperand = ui->calcDisplay->toPlainText().toDouble();
         addNumbers = 0;
         operation = '+';
     }
-    else if(((QPushButton *)sender())->text() == "-")
+    else if(oper == "-")
     {
         firstOperand = ui->calcDisplay->toPlainText().toDouble();
         addNumbers = 0;
         operation = '-';
     }
-    else if(((QPushButton *)sender())->text() == "×")
+    else if(oper == "×")
     {
         firstOperand = ui->calcDisplay->toPlainText().toDouble();
         addNumbers = 0;
         operation = '*';
     }
-    else if(((QPushButton *)sender())->text() == "÷")
+    else if(oper == "÷")
     {
         firstOperand = ui->calcDisplay->toPlainText().toDouble();
         addNumbers = 0;
         operation = '/';
     }
-    else if(((QPushButton *)sender())->text() == "x")
+    else if(oper == "x")
     {
         firstOperand = ui->calcDisplay->toPlainText().toDouble();
         addNumbers = 0;
         operation = 'x';
     }
-    else if(((QPushButton *)sender())->text() == "√x")
+    else if(oper == "√x")
     {
         firstOperand = ui->calcDisplay->toPlainText().toDouble();
         addNumbers = 0;
         operation = 'R';
     }
-    else if(((QPushButton *)sender())->text() == "x!")
+    try
     {
-        // zkontrolovat zaporna a desetinna cisla
-        if (ui->calcDisplay->toPlainText().contains('.') || ui->calcDisplay->toPlainText().contains('-'))
-            ui->calcDisplay->setPlainText("ERROR");
-        else
+        if(oper == "x!")
+        {
+            // zkontrolovat zaporna a desetinna cisla
+            if (ui->calcDisplay->toPlainText().contains('.') || ui->calcDisplay->toPlainText().contains('-'))
+            {
+                ui->calcDisplay->setPlainText("ERROR");
+                ui->calcDisplay->setAlignment(Qt::AlignRight);
+            }
+            else
+            {
+                unsigned short operand = ui->calcDisplay->toPlainText().toUInt();
+                unsigned long long result = math.factorial(operand);
+                ui->calcDisplay->setPlainText(QString::number(result));
+                ui->calcDisplay->setAlignment(Qt::AlignRight);
+            }
+            addNumbers = 0;
+            operation = ' ';
+        }
+        if(oper == "ln x")
         {
             unsigned short operand = ui->calcDisplay->toPlainText().toUInt();
-            unsigned long long result = math.factorial(operand);
-            ui->calcDisplay->setPlainText(QString::number(result));
+            if (operand < 0)
+            {
+                ui->calcDisplay->setPlainText("ERROR");
+                ui->calcDisplay->setAlignment(Qt::AlignRight);
+            }
+            else
+            {
+                double result = math.ln(operand);
+                ui->calcDisplay->setPlainText(QString::number(result));
+                ui->calcDisplay->setAlignment(Qt::AlignRight);
+            }
+            addNumbers = 0;
+            operation = ' ';
         }
-        addNumbers = 0;
-        operation = ' ';
     }
-    else if(((QPushButton *)sender())->text() == "ln x")
+    catch(const std::out_of_range& oor)
     {
-        unsigned short operand = ui->calcDisplay->toPlainText().toUInt();
-        if (operand < 0)
-            ui->calcDisplay->setPlainText("ERROR");
-        else
-        {
-            unsigned long long result = math.ln(operand);
-            ui->calcDisplay->setPlainText(QString::number(result));
-        }
-        addNumbers = 0;
-        operation = ' ';
+        ui->calcDisplay->setPlainText(QString("ERROR: ") + oor.what());
     }
+    wasEqual = 0;
+    updateEquDisplay();
+}
+
+void MainWindow::on_btnOper_clicked()
+{
+    processOper(((QPushButton *)sender())->text());
 }
 
 void MainWindow::on_btnClear_clicked()
 {
+    addNumbers = 0;
+    operation = ' ';
+    firstOperand = 0;
+    secondOperand = 0;
+    wasEqual = 0;
+
     ui->calcDisplay->clear();
     ui->equDisplay->clear();
+    ui->calcDisplay->setPlainText("0");
     ui->calcDisplay->setAlignment(Qt::AlignRight);
+
+    updateEquDisplay();
+}
+
+void MainWindow::calculate()
+{
+    double result = ui->calcDisplay->toPlainText().toDouble();
+    int err = 0;
+
+    try
+    {
+        switch (operation)
+        {
+            case '+':
+                result = math.add(firstOperand, secondOperand);
+                break;
+            case '-':
+                result = math.sub(firstOperand, secondOperand);
+                break;
+            case '*':
+                result = math.mul(firstOperand, secondOperand);
+                break;
+            case '/':
+                result = math.div(firstOperand, secondOperand);
+                break;
+            case 'x':
+                result = math.power(firstOperand, secondOperand);
+                break;
+            case 'R':
+                result = math.root(firstOperand, secondOperand);
+                break;
+            default:
+                operation = ' ';
+                break;
+        }
+    }
+    catch(const std::out_of_range& oor)
+    {
+        err = 1;
+        ui->calcDisplay->setPlainText(QString("ERROR: ") + oor.what());
+    }
+    catch(const std::invalid_argument& ia)
+    {
+        err = 1;
+        ui->calcDisplay->setPlainText(QString("ERROR: ") + ia.what());
+    }
+
+
+    if(!err)
+    {
+        ui->calcDisplay->setPlainText(QString::number(result));
+        ui->calcDisplay->setAlignment(Qt::AlignRight);
+    }
+    addNumbers = 0;
+
+    updateEquDisplay();
 }
 
 void MainWindow::on_btnEquals_clicked()
 {
-    double result = 0;
-    int err = 0;
-    double secondOperand = ui->calcDisplay->toPlainText().toDouble();
+    if(wasEqual)
+        firstOperand = ui->calcDisplay->toPlainText().toDouble();
+    else
+        secondOperand = ui->calcDisplay->toPlainText().toDouble();
+
+    wasEqual = 1;
+    calculate();
+}
+
+void MainWindow::updateEquDisplay()
+{
+    ui->equDisplay->clear();
+    if(operation != ' ')
+    {
+        ui->equDisplay->setAlignment(Qt::AlignRight);
+        ui->equDisplay->insertPlainText(QString::number(firstOperand));
+    }
+    QString opName(operation);
     switch (operation)
     {
-        case '+':
-            result = math.add(firstOperand, secondOperand);
-            break;
-        case '-':
-            result = math.sub(firstOperand, secondOperand);
-            break;
         case '*':
-            result = math.mul(firstOperand, secondOperand);
-            break;
+            opName = "×"; break;
         case '/':
-            result = math.div(firstOperand, secondOperand);
-            break;
+            opName = "÷"; break;
         case 'x':
-            result = math.power(firstOperand, secondOperand);
-            break;
+            opName = "^"; break;
         case 'R':
-            result = math.root(firstOperand, secondOperand);
-            break;
-        default:
-            err = 1;
-            operation = ' ';
-            break;
+            opName = "ROOT"; break;
     }
-    if(err)
-        ui->calcDisplay->setPlainText("ERROR");
-    else
-        ui->calcDisplay->setPlainText(QString::number(result));
 
-    addNumbers = 0;
+    if(operation != ' ')
+        ui->equDisplay->insertPlainText(QString(" ") + opName + " ");
+    if(wasEqual)
+    {
+        ui->equDisplay->setAlignment(Qt::AlignRight);
+        ui->equDisplay->insertPlainText(QString::number(secondOperand));
+        ui->equDisplay->insertPlainText(QString(" ="));
+    }
 }
 
 void MainWindow::on_btnHelp_clicked()
 {
-    ui->calcDisplay->setPlainText("DIS NO WORK YET");
+    QString link = "help.html";
+    QDesktopServices::openUrl(QUrl::fromLocalFile(link));
 }
