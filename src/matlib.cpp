@@ -124,14 +124,31 @@ double Matlib::ln(double a)
     double iteration_result = 1; // the value doesnt matter, we just need to begin the while loop
     unsigned short n = 1; // iterator in infinite series described below
 
-    while (iteration_result > epsilon)
+    if (a >= 1)
     {
-        // An infinite series of approximating natural log,
-        // where one iteration is equal to ((x-1)/(x+1)^(2n-1))/(2n-1)
-        // and the sum is multiplied by two.
-        iteration_result = (power((a-1)/(a+1), 2*n-1) / (2*n - 1));
-        result += 2*iteration_result;
-        n++;
+        while (iteration_result > epsilon)
+        {
+            // An infinite series of approximating natural log,
+            // where one iteration is equal to ((x-1)/(x+1)^(2n-1))/(2n-1)
+            // and the sum is multiplied by two.
+            iteration_result = (power((a-1)/(a+1), 2*n-1) / (2*n - 1));
+            result += 2*iteration_result;
+            n++;
+        }
+        return result;
     }
-    return result;
+    else
+    {
+        a = 1/a;
+        while (iteration_result > epsilon)
+        {
+            // For 0 < a < 1 we can use the same approach to get result,
+            // the only thing we need to do is to calculate with inverse number,
+            // because we know that ln(1/a) == -ln(a).
+            iteration_result = (power((a-1)/(a+1), 2*n-1) / (2*n - 1));
+            result += 2*iteration_result;
+            n++;
+        }
+        return -result;
+    }
 }
