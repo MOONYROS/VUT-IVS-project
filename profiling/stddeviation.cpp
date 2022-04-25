@@ -25,6 +25,7 @@ using namespace std;
 
 double aberrance( double numbers[], int numSize )
 {
+    Matlib math; //creating a instation of class
     long double sum = 0;
     double tmp = 0;
 
@@ -32,25 +33,25 @@ double aberrance( double numbers[], int numSize )
     {
         //count average
         tmp = numbers[i];
-        sum = Matlib::add(sum, tmp);
+        sum = math.add(sum, tmp);
     }
-    double average = Matlib::div(sum,numSize);
+    double average = math.div(sum,numSize);
 
     long double sumOfNumbers = 0;
 
     for ( int j = 0; j < numSize; j++ )
     {
         // sumOfNumbers = sumOfNumbers + (( x - average)^2)
-        sumOfNumbers =  Matlib::add( ( Matlib::power( Matlib::sub( numbers[j], average ), 2) ), sumOfNumbers);
+        sumOfNumbers =  math.add( ( math.power( math.sub( numbers[j], average ), 2) ), sumOfNumbers);
     }
     // total = 1 / (N-1) * sumOfNumbers
     double total = 0;
-    total = Matlib::mul( sumOfNumbers, Matlib::div( 1, Matlib::sub( numSize, 1 ) ));
-    result = Matlib::root(total, 2);
+    total = math.mul( sumOfNumbers, math.div( 1, math.sub( numSize, 1 ) ));
+    double result = math.root(total, 2);
     return result;
 }
 
-//main function to read numbers from file
+//main function - to read numbers from file
 
 int main( int argc, char *argv[])
 {
@@ -72,15 +73,16 @@ int main( int argc, char *argv[])
             return 0;
         }
     }
-    double numbers;
+    double num;
     double array[10000]; // load numbers to this array
-
-    for ( int i = 0; file >> numbers ; i++ )
+    double numSize = 0;
+    for ( int i = 0; file >> num ; i++ )
     {
-        array[i] = numbers;
+        array[i] = num;
+        numSize++;
     }
 
-    double deviation = aberrance( array, i);
+    double deviation = aberrance( array, numSize);
     cout << deviation << endl;
     return 0;
 }
