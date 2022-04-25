@@ -1,14 +1,14 @@
 /**
- * @file aberrance.cpp
+ * @file stddeviation.cpp
  *
  * @author Marek Konecny, xkonec85
  * @author Ondrej Koumar, xkouma02
  * @author Ondrej Lukasek, xlukas15
  * @author Jonas Morkus, xmorku03
  *
- * @brief Profiling - aberrance.
+ * @brief count of deviation using matlib.h
  */
-#include "../Matlib/matlib.h"
+#include "../src/matlib.h"
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
@@ -18,21 +18,21 @@
 using namespace std;
 
 /**
- * @brief aberrance used to calculate profiling. 
- * @param file numbericons is array of doubles
+ * @brief aberrance used to calculate profiling.
+ * @param file numbers is array of doubles
  * @param numSize is size of array 'numbericons'
  */
 
-double aberrance( double numbericons[], int numSize )
+double aberrance( double numbers[], int numSize )
 {
     long double sum = 0;
+    double tmp = 0;
 
     for ( int i = 0; i < numSize; i++ )
     {
-        //average
-        double tmpSum = 0;
-        tmpSum = numbericons[i];
-        sum = Matlib::add(sum, tmpSum);
+        //count average
+        tmp = numbers[i];
+        sum = Matlib::add(sum, tmp);
     }
     double average = Matlib::div(sum,numSize);
 
@@ -41,15 +41,16 @@ double aberrance( double numbericons[], int numSize )
     for ( int j = 0; j < numSize; j++ )
     {
         // sumOfNumbers = sumOfNumbers + (( x - average)^2)
-        sumOfNumbers =  Matlib::add( ( Matlib::power( Matlib::sub( numbericons[j], average ), 2) ), sumOfNumbers);
+        sumOfNumbers =  Matlib::add( ( Matlib::power( Matlib::sub( numbers[j], average ), 2) ), sumOfNumbers);
     }
     // total = 1 / (N-1) * sumOfNumbers
     double total = 0;
     total = Matlib::mul( sumOfNumbers, Matlib::div( 1, Matlib::sub( numSize, 1 ) ));
-    return Matlib::root(total, 2);
+    result = Matlib::root(total, 2);
+    return result;
 }
 
-//main function - to read numbers from file
+//main function to read numbers from file
 
 int main( int argc, char *argv[])
 {
@@ -58,7 +59,7 @@ int main( int argc, char *argv[])
 
     if ( argc != 2 )
     {
-        cerr << "Program expected only ONE argument!" << endl ;
+        cerr << "there must be 1 argument - file with array of numbers" << endl ;
         return 0;
     }
     else
@@ -71,15 +72,15 @@ int main( int argc, char *argv[])
             return 0;
         }
     }
-    double num;
-    double array[10000];
+    double numbers;
+    double array[10000]; // load numbers to this array
 
-    for ( int i = 0; file >> num ; i++ )
+    for ( int i = 0; file >> numbers ; i++ )
     {
-        array[i] = num;
+        array[i] = numbers;
     }
 
-    double aberrance = aberrance( array, i);
-    cout << aberrance << endl;
+    double deviation = aberrance( array, i);
+    cout << deviation << endl;
     return 0;
 }
