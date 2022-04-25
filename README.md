@@ -34,7 +34,7 @@ ________________________________________________________________________________
 Environment
 -----------
 
-Windows 64bit (Windows 11 a Windows 10)
+Windows 64bit (Windows 11 and Windows 10)
 
 Authors
 -------
