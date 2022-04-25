@@ -233,7 +233,7 @@ void MainWindow::processOper(QString oper)
             // We check if there are any decimal numbers or negative number. If the case, we call error.
             if (ui->calcDisplay->toPlainText().contains('.') || ui->calcDisplay->toPlainText().contains('-'))
             {
-                ui->calcDisplay->setPlainText("ERROR: Incorrect number input");
+                ui->calcDisplay->setPlainText("ERROR: Number is negative or non-integer");
                 ui->calcDisplay->setAlignment(Qt::AlignRight);
             }
             // If it is not the case, we make the operation and show the result.
@@ -251,7 +251,7 @@ void MainWindow::processOper(QString oper)
         if(oper == "ln x")
         {
             // We retype the text to unsigned int and save it to the operand.
-            unsigned short operand = ui->calcDisplay->toPlainText().toUInt();
+            double operand = ui->calcDisplay->toPlainText().toDouble();
 
             // If the inserted number is lower than 0 we call error.
             if (operand < 0)
