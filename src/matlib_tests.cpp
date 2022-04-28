@@ -14,8 +14,8 @@
  * it checks the equality of finite number of decimal places.
  */
 
+#include <cmath>
 #include "matlib.h"
-#include "matlib.cpp"
 #include "gtest/gtest.h"
 
 Matlib matlib;
@@ -94,7 +94,7 @@ TEST(divTest, mixedNumbers)
 
 TEST(divTest, divisionByZero)
 {
-    EXPECT_THROW(matlib.div(20, 0), invalid_argument);
+    EXPECT_ANY_THROW(matlib.div(20, 0));
 }
 
 /**
@@ -109,8 +109,8 @@ TEST(factorialTest, legalNumbers)
 
 TEST(factorialTest, illegalNumbers)
 {
-    EXPECT_THROW(matlib.factorial(-1), out_of_range);
-    EXPECT_THROW(matlib.factorial(21), out_of_range);
+    EXPECT_ANY_THROW(matlib.factorial(-1));
+    EXPECT_ANY_THROW(matlib.factorial(21));
 }
 
 /**
@@ -118,26 +118,26 @@ TEST(factorialTest, illegalNumbers)
  */
 TEST(powerTest, positiveNumbers)
 {
-    EXPECT_DOUBLE_EQ(matlib.power(1.2, 2), 1.44);
-    EXPECT_DOUBLE_EQ(matlib.power(1.05, 42), 7.761587555);
-    EXPECT_DOUBLE_EQ(matlib.power(2, 10), 1024);
+    EXPECT_DOUBLE_EQ(matlib.power(1.2, 2), pow(1.2, 2));
+    EXPECT_DOUBLE_EQ(matlib.power(1.05, 42), pow(1.05, 42));
+    EXPECT_DOUBLE_EQ(matlib.power(2, 10), pow(2, 10));
 }
 
 TEST(powerTest, negativeNumbers)
 {
-    EXPECT_DOUBLE_EQ(matlib.power(-5.6, 3), -167.854412445);
-    EXPECT_DOUBLE_EQ(matlib.power(-1, 8), 1);
+    EXPECT_DOUBLE_EQ(matlib.power(-5.6, 3), pow(-5.6, 3));
+    EXPECT_DOUBLE_EQ(matlib.power(-1, 8), pow(-1, 8));
 }
 
 TEST(powerTest, zero)
 {
-    EXPECT_DOUBLE_EQ(matlib.power(234234, 0), 1); // Exponent is zero
-    EXPECT_DOUBLE_EQ(matlib.power(0, 2342), 0); // Base is zero
+    EXPECT_DOUBLE_EQ(matlib.power(234234, 0), pow(234234, 0)); // Exponent is zero
+    EXPECT_DOUBLE_EQ(matlib.power(0, 2342), pow(0, 2342)); // Base is zero
 }
 
 TEST(powerTest, negativeExponent)
 {
-    EXPECT_THROW(matlib.power(234, -4), out_of_range);
+    EXPECT_ANY_THROW(matlib.power(234, -4));
 }
 
 /**
@@ -145,15 +145,18 @@ TEST(powerTest, negativeExponent)
  */
 TEST(rootTest, validCases)
 {
-    EXPECT_DOUBLE_EQ(matlib.root(-5, 3), -1.709975946);
-    EXPECT_DOUBLE_EQ(matlib.root(16, 4), 2);
-    EXPECT_DOUBLE_EQ(matlib.root(7, 8), 1.345900192);
+    EXPECT_NEAR(matlib.root(-5, 3), -1.70997594667, 10e-8);
+    EXPECT_NEAR(matlib.root(-27, 3), -3, 10e-8);
+    EXPECT_NEAR(matlib.root(-81, 3), -4.326748711, 10e-8);
+    EXPECT_NEAR(matlib.root(-7, 7), -1.320469248, 10e-8);
+    EXPECT_NEAR(matlib.root(16, 4), pow(16, 1.0/4), 10e-8);
+    EXPECT_NEAR(matlib.root(7, 8), pow(7, 1.0/8), 10e-8);
 }
 
 TEST(rootTest, invalidCases)
 {
-    EXPECT_THROW(matlib.root(200, -4), out_of_range);
-    EXPECT_THROW(matlib.root(4, -3), invalid_argument);
+    EXPECT_ANY_THROW(matlib.root(200, -4));
+    EXPECT_ANY_THROW(matlib.root(4, -3));
 }
 
 /**
@@ -161,15 +164,15 @@ TEST(rootTest, invalidCases)
  */
 TEST(lnTest, validCases)
 {
-    EXPECT_DOUBLE_EQ(matlib.ln(10), 1);
-    EXPECT_DOUBLE_EQ(matlib.ln(1), 0);
-    EXPECT_DOUBLE_EQ(matlib.ln(123), 2.089905111);
+    EXPECT_NEAR(matlib.ln(10), log(10), 10e-8);
+    EXPECT_DOUBLE_EQ(matlib.ln(1), log(1));
+    EXPECT_NEAR(matlib.ln(123.0), log(123.0), 10e-8);
 }
 
 TEST(lnTest, invalidCases)
 {
-    EXPECT_THROW(matlib.ln(0), out_of_range);
-    EXPECT_THROW(matlib.ln(-10), out_of_range);
+    EXPECT_ANY_THROW(matlib.ln(0));
+    EXPECT_ANY_THROW(matlib.ln(-10));
 }
 
 int main(int argc, char **argv)

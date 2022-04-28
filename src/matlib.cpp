@@ -57,7 +57,7 @@ unsigned long long Matlib::factorial(unsigned short a)
     return result;
 }
 
-double Matlib::power(double a, unsigned short exponent)
+double Matlib::power(double a, short exponent)
 {
     double result = 1;
 
@@ -76,12 +76,16 @@ double Matlib::power(double a, unsigned short exponent)
     return result;
 }
 
-double Matlib::root(double a, unsigned short degree)
+double Matlib::root(double a, short degree)
 {
     // checking for valid values of the given number and degree 
-    if (a == 0)
+    if (degree <= 0)
     {
         throw invalid_argument("The degree has to be > 1.\n");
+    }
+    else if (a == 0)
+    {
+        return 0;
     }
     else if (degree == 1)
     {
@@ -92,12 +96,12 @@ double Matlib::root(double a, unsigned short degree)
         throw invalid_argument("There is no solution (in R) for negative numbers and even degree.");
     }
 
-    double epsilon = 0.00000001;
-    double iteration_result = a;
-    double result = iteration_result + 1; // the value doesnt matter, we just need to begin the while loop
-
+    double iteration_result = (a > 0 ? a : -a);
+    double result; // the value doesnt matter, we just need to begin the while loop
+    double epsilon = 10e-12;
+    double difference = 1;
     // newthons method of approximating result by solving differential equation
-    while (result - iteration_result > epsilon)
+    while (difference > epsilon || difference < -epsilon)
     {
         result = iteration_result;
         // In our case nth root can be written as a^(1/degree),
@@ -107,6 +111,7 @@ double Matlib::root(double a, unsigned short degree)
         // The simplified equivalent of this particular formula is
         // Xk+1 = Xk - ((Xk^degree) - a)/(degree*(Xk^degree-1))S
         iteration_result = iteration_result - (power(iteration_result, degree) - a) / (degree * power(iteration_result, degree - 1));
+        difference = result - iteration_result;
     }
     return result;
 }
@@ -120,7 +125,7 @@ double Matlib::ln(double a)
     }
 
     double result = 0;
-    double epsilon = 0.00000001;
+    double epsilon = 10e-12;
     double iteration_result = 1; // the value doesnt matter, we just need to begin the while loop
     unsigned short n = 1; // iterator in infinite series described below
 

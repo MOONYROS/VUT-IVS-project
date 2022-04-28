@@ -53,13 +53,13 @@ class Matlib
          * @brief Calculates Nth power of a given number.
          * @return Power, double precision float.
          */
-        double power(double a, unsigned short exponent);
+        double power(double a, short exponent);
 
         /**
          * @brief Calculates Nth root of a given number.
          * @return Root, double precision float (preset with epsilon = 10e-8).
          */
-        double root(double a, unsigned short degree);
+        double root(double a, short degree);
 
         /**
          * @brief Calculates natural logarithm of a given number.
