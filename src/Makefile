@@ -31,10 +31,10 @@ CXXFLAGS := -std=c++11 -Wall -Wextra -Werror -Wpedantic
 .PHONY : all pack clean test doc run profile installtest
 
 all: profile
-	sudo apt install qtbase5-dev
+	sudo apt install qtbase5-dev -y
 	mkdir build && cd build && cmake .. && make
 
-pack:
+pack: doc
 	cd $(PROJDIR)/.. && mkdir $(PACK_DIR) && cd $(PACK_DIR) && mkdir doc install repo
 	cp -r html latex $(PROJDIR)/../$(PACK_DIR)/doc
 	cd $(PROJDIR)/.. && cp -r CalculandumMachina/* $(PACK_DIR)/repo && zip -rv $(PACK) $(PACK_DIR) && rm -rf $(PACK_DIR)
@@ -92,7 +92,7 @@ $(GTEST_HEADERS):
 doc:
 	doxygen Doxyfile
 
-run: all
+run:
 	cd build && ./template
 
 profile: $(PROFILE)
