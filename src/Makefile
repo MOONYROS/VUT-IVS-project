@@ -37,6 +37,7 @@ all: profile
 pack: doc
 	cd $(PROJDIR)/.. && mkdir $(PACK_DIR) && cd $(PACK_DIR) && mkdir doc install repo
 	cp -r html latex $(PROJDIR)/../$(PACK_DIR)/doc
+	cd $(PROJDIR)/.. && cp -r .git/ $(PACK_DIR)/repo
 	cd $(PROJDIR)/.. && cp -r CalculandumMachina/* $(PACK_DIR)/repo && zip -rv $(PACK) $(PACK_DIR) && rm -rf $(PACK_DIR)
 
 clean:
