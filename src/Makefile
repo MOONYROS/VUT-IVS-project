@@ -37,7 +37,11 @@ all: profile
 pack: doc
 	cd $(PROJDIR)/.. && mkdir $(PACK_DIR) && cd $(PACK_DIR) && mkdir doc install repo
 	cp -r html latex $(PROJDIR)/../$(PACK_DIR)/doc
+<<<<<<< HEAD
 	cd $(PROJDIR)/.. && if [ -f "CMSetup.exe" ]; then cp CMSetup.exe $(PACK_DIR)/install; fi
+=======
+	cd $(PROJDIR)/.. && cp -r .git/ $(PACK_DIR)/repo
+>>>>>>> d486e5812e08bffb8939d03cac55bd6794d40638
 	cd $(PROJDIR)/.. && cp -r CalculandumMachina/* $(PACK_DIR)/repo && zip -rv $(PACK) $(PACK_DIR) && rm -rf $(PACK_DIR)
 	
 clean:
