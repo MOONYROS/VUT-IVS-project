@@ -15,7 +15,6 @@
 #include "matlib.h"
 
 #include <QKeyEvent>
-#include <QIcon>
 #include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -32,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     wasEqual = 0;
 
     // Setting up window icon and window title.
-    setWindowIcon(QIcon(":/img/mainLogo"));
     setWindowTitle("Calculandum Machina");
 
     // Setting up basic app functions like non-resizable window or read-only display.

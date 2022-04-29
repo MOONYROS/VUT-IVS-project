@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/img">
-        <file alias="mainLogo">C:/Users/ondre/OneDrive/Skola_Dopisy/VUT-FIT/1-2-LS/IVS/projekt_2/CalculandumMachina_icon.png</file>
-        <file alias="windowLogo">C:/Users/ondre/OneDrive/Skola_Dopisy/VUT-FIT/1-2-LS/IVS/projekt_2/CalculandumMachina_icon.ico</file>
-    </qresource>
-</RCC>

@@ -31,16 +31,17 @@ CXXFLAGS := -std=c++11 -Wall -Wextra -Werror -Wpedantic
 .PHONY : all pack clean test doc run profile installtest
 
 all: profile
+	sudo apt install qtbase5-dev
 	mkdir build && cd build && cmake .. && make
 
 pack:
 	cd $(PROJDIR)/.. && mkdir $(PACK_DIR) && cd $(PACK_DIR) && mkdir doc install repo
 	cp -r html latex $(PROJDIR)/../$(PACK_DIR)/doc
-	cd $(PROJDIR)/.. && mv git-training/* $(PACK_DIR)/repo && zip -rv $(PACK) $(PACK_DIR)
+	cd $(PROJDIR)/.. && cp -r CalculandumMachina/* $(PACK_DIR)/repo && zip -rv $(PACK) $(PACK_DIR) && rm -rf $(PACK_DIR)
 
 clean:
-	cd $(PROJDIR) && ls | egrep -v 'mockup|plan|profiling|src|dokumentace.pdf|LICENSE|README.md|screenshot.png' | xargs rm -rf && rm -rf build-src-Desktop*
-	ls | egrep -v 'main.cpp|mainwindow*|matlib*|Doxyfile|CMakeLists.txt|help.html|Makefile' | xargs rm -rf && rm -f *.o && rm -f *.user
+	cd $(PROJDIR) && ls | egrep -v 'mockup|plan|profiling|src|dokumentace.pdf|LICENSE|README.md|*.png|*.txt' | xargs rm -rf && rm -rf build-src-Desktop*
+	ls | egrep -v 'main.cpp|mainwindow*|matlib*|Doxyfile|CMakeLists.txt|help.html|Makefile' | xargs rm -rf && rm -f *.o *.user matlib_tests
 	cd $(PROJDIR)/profiling && ls | egrep -v '*.cpp|*.pdf' | xargs rm -rf
 	cd $(PROJDIR)/mockup && ls | egrep -v 'mockup*' | xargs rm -rf
 	cd $(PROJDIR)/plan && ls | egrep -v 'xlukas15*' | xargs rm -rf
@@ -62,6 +63,7 @@ installtest:
 	cd $(PROJDIR) && git clone https://github.com/google/googletest/
 
 test: $(TESTS)
+	./$(TESTS)
 
 $(TESTS): matlib.o $(TESTS).o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
@@ -90,12 +92,10 @@ $(GTEST_HEADERS):
 doc:
 	doxygen Doxyfile
 
-run: $(EXEC)
-	./$(EXEC)
+run: all
+	cd build && ./template
 
 profile: $(PROFILE)
-	./$(PROFILE)
 
-# Compiling profiling, if its not done yet
 $(PROFILE): $(PROFILE_SRC) $(MATLIB_SRCS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
