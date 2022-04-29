@@ -37,8 +37,9 @@ all: profile
 pack: doc
 	cd $(PROJDIR)/.. && mkdir $(PACK_DIR) && cd $(PACK_DIR) && mkdir doc install repo
 	cp -r html latex $(PROJDIR)/../$(PACK_DIR)/doc
+	cd $(PROJDIR)/.. && if [ -f "CMSetup.exe" ]; then cp CMSetup.exe $(PACK_DIR)/install; fi
 	cd $(PROJDIR)/.. && cp -r CalculandumMachina/* $(PACK_DIR)/repo && zip -rv $(PACK) $(PACK_DIR) && rm -rf $(PACK_DIR)
-
+	
 clean:
 	cd $(PROJDIR) && ls | egrep -v 'mockup|plan|profiling|src|dokumentace.pdf|LICENSE|README.md|*.png|*.txt' | xargs rm -rf && rm -rf build-src-Desktop*
 	ls | egrep -v 'main.cpp|mainwindow*|matlib*|Doxyfile|CMakeLists.txt|help.html|Makefile' | xargs rm -rf && rm -f *.o *.user matlib_tests
