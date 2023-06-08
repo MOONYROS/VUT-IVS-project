@@ -1,4 +1,4 @@
-# CalculandumMachina
+# CalculandumMachina - IVS project (2021/2022)
 
 ## Prostredi
 
