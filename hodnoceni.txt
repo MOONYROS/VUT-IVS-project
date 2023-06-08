@@ -1,4 +1,0 @@
-xlukas15 115 (zaklad GUI, integrace, uzivatelska dokumentace)
-xkouma02 97,5 (Makefile, testy, matematicke funkce)
-xmorku03 97,5 (zaklad GUI, profiling, mockup, instalator, pomocne soubory (help.html))
-xkonec85 90 (matematicke funkce, profiling, testy)
