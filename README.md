@@ -61,12 +61,12 @@ Calculandum Machina
 
 ## License
 
-This program is distributed under GNU GPL v 3.0 licence.  
+This program is distributed under **GNU GPL v 3.0 licence**.  
 Licence text is available [here](https://www.gnu.org/licenses/gpl-3.0.txt).
 
 ## General information
 
-Program was created using [Qt framework](https://www.qt.io/) and C++ prgramming language.  
+Program was created using [Qt framework](https://www.qt.io/) and `C++` prgramming language.  
 Cmake was used for the project compiation. [Inno Setup](https://jrsoftware.org/isinfo.php) installer was used to create setup file.
 As version control system, the team used repository on [GitHub](https://github.com/) and [Discord](https://discord.com/) as a communication channel.
 
